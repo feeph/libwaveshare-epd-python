@@ -1,0 +1,20 @@
+version: "0.2"
+ignorePaths: []
+dictionaryDefinitions: []
+dictionaries: []
+words:
+  - adafruit
+  - baudrate
+  - busio
+  - digitalio
+  - framebuf
+  - Jetson
+  - MOSI
+  - Pico
+  - pinout
+  - spidev
+  - sysfs
+  - VSYS
+  - waveshare
+ignoreWords: []
+import: []
