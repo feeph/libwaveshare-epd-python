@@ -1,0 +1,8 @@
+; https://github.com/PyCQA/flake8
+[flake8]
+max-line-length = 120
+;extend-ignore   = E221,E241
+
+per-file-ignores =
+    waveshare/canvas/__init__.py:F401
+    waveshare/epd/__init__.py:F401
