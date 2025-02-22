@@ -3,12 +3,18 @@
 # documentation can be found at https://pre-commit.com/
 #
 # perform once after cloning the repository:
-#  scripts/prepare_repository
+#  pre-comm install
 #
 # if you want to trigger pre-commit manually:
 #  pre-commit run
 #  pre-commit run --all-files
 #
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+  - post-commit
+  - pre-push
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
