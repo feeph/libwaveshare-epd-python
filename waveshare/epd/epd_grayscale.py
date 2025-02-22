@@ -76,7 +76,7 @@ def split_framebuffer(buf: bytearray) -> tuple[bytearray, bytearray]:
 
 
 Gray4 = LookupTable(
-    lut = bytearray([
+    lut=bytearray([
         0x00, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x20, 0x60, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x28, 0x60, 0x14, 0x00, 0x00, 0x00,
@@ -94,24 +94,25 @@ Gray4 = LookupTable(
         0x00, 0x00, 0x00, 0x00, 0x24, 0x22, 0x22, 0x22, 0x23, 0x32,
         0x00, 0x00,	0x00
     ]),
-    unk1 = 0x22,
-    gate = 0x17,
-    src  = bytearray([0x41, 0xAE, 0x32]),
-    vcom = 0x28,
+    unk1=0x22,
+    gate=0x17,
+    src=bytearray([0x41, 0xAE, 0x32]),
+    vcom=0x28,
 )
 
 
 class EPD_grayscale(EPD_generic):
 
-    def __init__(self, spi_bus: busio.SPI, bsy: digitalio.DigitalInOut, dcs: digitalio.DigitalInOut, rst: digitalio.DigitalInOut, scs: digitalio.DigitalInOut):
+    def __init__(self, spi_bus: busio.SPI, bsy: digitalio.DigitalInOut, dcs: digitalio.DigitalInOut, rst: digitalio.DigitalInOut, scs: digitalio.DigitalInOut):  # noqa: E501
         super().__init__(spi_bus=spi_bus, bsy=bsy, dcs=dcs, rst=rst, scs=scs)
         print("hardware init (grayscale)")
         self.reset()
         self.read_busy()
         self.send_command(0x12)  # SWRESET
-        self.read_busy() 
-        self.send_command(0x01, bytearray([0x27, 0x01, 0x00]))  # driver output control      
-        self.send_command(0x11, 0x03)  # data entry mode       
+        self.read_busy()
+        # driver output control
+        self.send_command(0x01, bytearray([0x27, 0x01, 0x00]))
+        self.send_command(0x11, 0x03)  # data entry mode
         self.set_window(8, 0, self.width, self.height-1)
         self.send_command(0x3C, 0x04)
         self.set_cursor(1, 0)
@@ -119,7 +120,9 @@ class EPD_grayscale(EPD_generic):
         self.set_lut(Gray4)
         # # initialize frame buffer
         # self.buf = bytearray(height * width // 4)
-        # self.fb = adafruit_framebuf.FrameBuffer(self.buf, width=width, height=height, buf_format=adafruit_framebuf.GS2_HMSB)  # framebuf.GS2_HMSB
+        # self.fb = adafruit_framebuf.FrameBuffer(
+        #   self.buf, width=width, height=height, buf_format=adafruit_framebuf.GS2_HMSB
+        # )  # framebuf.GS2_HMSB
         # define available colors
         # self.black = 0x00
         # self.white = 0xff
@@ -130,67 +133,67 @@ class EPD_grayscale(EPD_generic):
         len1 = len(canvas.buf)
         buf1 = bytearray(len1)
         for i in range(len1):
-            temp3=0
+            temp3 = 0
             for j in range(0, 2):
                 temp1 = canvas.buf[i*2+j]
                 for k in range(0, 2):
-                    temp2 = temp1&0x03 
-                    if(temp2 == 0x03):
+                    temp2 = temp1 & 0x03
+                    if (temp2 == 0x03):
                         temp3 |= 0x00   # white
-                    elif(temp2 == 0x00):
+                    elif (temp2 == 0x00):
                         temp3 |= 0x01   # black
-                    elif(temp2 == 0x02):
+                    elif (temp2 == 0x02):
                         temp3 |= 0x00   # gray1
                     else:   # 0x01
                         temp3 |= 0x01   # gray2
                     temp3 <<= 1
 
                     temp1 >>= 2
-                    temp2 = temp1&0x03 
-                    if(temp2 == 0x03):   # white
+                    temp2 = temp1 & 0x03
+                    if (temp2 == 0x03):   # white
                         temp3 |= 0x00
-                    elif(temp2 == 0x00):   # black
+                    elif (temp2 == 0x00):   # black
                         temp3 |= 0x01
-                    elif(temp2 == 0x02):
+                    elif (temp2 == 0x02):
                         temp3 |= 0x00   # gray1
                     else:   # 0x01
                         temp3 |= 0x01   # gray2
-                    
-                    if (( j!=1 ) | ( k!=1 )):
+
+                    if ((j != 1) | (k != 1)):
                         temp3 <<= 1
                     temp1 >>= 2
             buf1[i] = temp3
         self.send_command(0x24, buf1)
-            
+
         len2 = len(canvas.buf)
         buf2 = bytearray(len2)
         for i in range(len2):
-            temp3=0
+            temp3 = 0
             for j in range(0, 2):
                 temp1 = canvas.buf[i*2+j]
                 for k in range(0, 2):
-                    temp2 = temp1&0x03 
-                    if(temp2 == 0x03):
+                    temp2 = temp1 & 0x03
+                    if (temp2 == 0x03):
                         temp3 |= 0x00   # white
-                    elif(temp2 == 0x00):
+                    elif (temp2 == 0x00):
                         temp3 |= 0x01   # black
-                    elif(temp2 == 0x02):
+                    elif (temp2 == 0x02):
                         temp3 |= 0x01   # gray1
                     else:   # 0x01
                         temp3 |= 0x00   # gray2
                     temp3 <<= 1
 
                     temp1 >>= 2
-                    temp2 = temp1&0x03
-                    if(temp2 == 0x03):   # white
+                    temp2 = temp1 & 0x03
+                    if (temp2 == 0x03):   # white
                         temp3 |= 0x00
-                    elif(temp2 == 0x00):   # black
+                    elif (temp2 == 0x00):   # black
                         temp3 |= 0x01
-                    elif(temp2 == 0x02):
+                    elif (temp2 == 0x02):
                         temp3 |= 0x01   # gray1
                     else:   # 0x01
-                        temp3 |= 0x00   # gray2  
-                    if(j!=1 or k!=1):                    
+                        temp3 |= 0x00   # gray2
+                    if (j != 1 or k != 1):
                         temp3 <<= 1
                     temp1 >>= 2
             buf2[i] = temp3

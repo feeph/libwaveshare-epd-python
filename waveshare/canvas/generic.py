@@ -26,8 +26,8 @@ class FramebufferFormat(Enum):
 
 
 class Rotation(Enum):
-    ROTATE_BY_0   = 0  # rotate 0° clockwise
-    ROTATE_BY_90  = 1  # rotate 90° clockwise
+    ROTATE_BY_0 = 0    # rotate 0° clockwise
+    ROTATE_BY_90 = 1   # rotate 90° clockwise
     ROTATE_BY_180 = 2  # rotate 180° clockwise
     ROTATE_BY_270 = 3  # rotate 270° clockwise
 
@@ -48,7 +48,7 @@ class GenericCanvas:
     # default implementation - override as needed
     def _is_valid_image(self, image: PIL.Image) -> bool:
         # image must have the same width, height and color depth
-        if (self.fb.width, self.fb.height) != image.size: 
+        if (self.fb.width, self.fb.height) != image.size:
             return False
         else:
             return True

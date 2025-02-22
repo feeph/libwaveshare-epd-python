@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 
+import adafruit_framebuf
 import busio
 import digitalio
 
-import adafruit_framebuf
 import waveshare.canvas
 
 from .epd_generic import EPD_generic
 from .lookuptable import LookupTable
 
-
 WS_20_30 = LookupTable(
-    lut = bytearray([
+    lut=bytearray([
         0x80, 0x66, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00,
         0x00, 0x00, 0x10, 0x66, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x20, 0x00, 0x00, 0x00, 0x80, 0x66, 0x00, 0x00, 0x00, 0x00,
@@ -29,28 +28,31 @@ WS_20_30 = LookupTable(
         0x00, 0x00, 0x00, 0x00, 0x44, 0x44, 0x44, 0x44, 0x44, 0x44,
         0x00, 0x00, 0x00
     ]),
-    unk1 = 0x22,
-    gate = 0x17,
-    src  = bytearray([0x41, 0x00, 0x32]),
-    vcom = 0x36,
+    unk1=0x22,
+    gate=0x17,
+    src=bytearray([0x41, 0x00, 0x32]),
+    vcom=0x36,
 )
 
 
 class EPD_monochrome(EPD_generic):
 
-    def __init__(self, spi_bus: busio.SPI, bsy: digitalio.DigitalInOut, dcs: digitalio.DigitalInOut, rst: digitalio.DigitalInOut, scs: digitalio.DigitalInOut, width: int, height: int):
+    def __init__(self, spi_bus: busio.SPI, bsy: digitalio.DigitalInOut, dcs: digitalio.DigitalInOut, rst: digitalio.DigitalInOut, scs: digitalio.DigitalInOut, width: int, height: int):  # noqa: E501
         # initialize parent
         super().__init__(spi_bus=spi_bus, bsy=bsy, dcs=dcs, rst=rst, scs=scs, width=width, height=height)
         print("hardware init (monochrome)")
         # -- hardware initialization (monochrome) --
         self.reset()
-        self.read_busy()   
-        self.send_command(0x12)  #SWRESET
-        self.read_busy()   
-        self.send_command(0x01, bytearray([0x27, 0x01, 0x00]))  # driver output control
-        self.send_command(0x11, 0x03)                           # data entry mode
+        self.read_busy()
+        self.send_command(0x12)  # SWRESET
+        self.read_busy()
+        # driver output control
+        self.send_command(0x01, bytearray([0x27, 0x01, 0x00]))
+        # data entry mode
+        self.send_command(0x11, 0x03)
         self.set_window(0, 0, self.width-1, self.height-1)
-        self.send_command(0x21, bytearray([0x00, 0x80]))        # display update control
+        # display update control
+        self.send_command(0x21, bytearray([0x00, 0x80]))
         self.set_cursor(0, 0)
         self.read_busy()
         self.set_lut(WS_20_30)

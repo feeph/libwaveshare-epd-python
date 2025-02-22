@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from .epd_monochrome import EPD_monochrome
 from .epd_grayscale import EPD_grayscale
+from .epd_monochrome import EPD_monochrome
 
 # colors
 
@@ -33,4 +33,8 @@ from .epd_grayscale import EPD_grayscale
 
 # permanent damage
 
-# Note that the screen cannot be powered on for a long time. When the screen is not refreshed, please set the screen to sleep mode, or power off the e-Paper. Otherwise, the screen will remain in a high voltage state for a long time, which will damage the e-Paper and cannot be repaired!
+# Note that the screen cannot be powered on for a long time. When the
+# screen is not refreshed, please set the screen to sleep mode, or power
+# off the e-Paper. Otherwise, the screen will remain in a high voltage
+# state for a long time, which will damage the e-Paper and cannot be
+# repaired!
