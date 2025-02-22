@@ -5,8 +5,9 @@ abstraction for a framebuffer and it's underlying bytearray
 
 from enum import Enum
 
-import adafruit_framebuf
-import PIL
+# CircuitPython does not provide type hints for these libraries
+import adafruit_framebuf  # type: ignore
+import PIL.Image
 
 
 class Point:
@@ -46,7 +47,7 @@ class GenericCanvas:
         return 0 <= color <= 16777216
 
     # default implementation - override as needed
-    def _is_valid_image(self, image: PIL.Image) -> bool:
+    def _is_valid_image(self, image: PIL.Image.Image) -> bool:
         # image must have the same width, height and color depth
         if (self.fb.width, self.fb.height) != image.size:
             return False
@@ -82,7 +83,7 @@ class GenericCanvas:
         else:
             return False
 
-    def fill_rect(self, start: Point, width: int, height: int, color: int) -> True:
+    def fill_rect(self, start: Point, width: int, height: int, color: int) -> bool:
         """
         Draw a rectangle at the given location, size and color.
         The ``fill_rect`` method draws both the outline and interior.
@@ -178,7 +179,7 @@ class GenericCanvas:
         else:
             return False
 
-    def draw_image(self, img: PIL.Image) -> bool:
+    def draw_image(self, img: PIL.Image.Image) -> bool:
         """
         Set buffer to value of Python Imaging Library image.
 

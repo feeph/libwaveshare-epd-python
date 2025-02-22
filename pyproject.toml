@@ -27,8 +27,12 @@ Issues = "https://github.com/feeph/libwaveshare-epd-python/issues"
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
-[dependency-groups]
-dev = [
+[tool.isort]
+ignore_whitespace = true
+
+[tool.uv]
+dev-dependencies = [
     "adafruit-circuitpython-typing>=1.11.2",
+    "mypy>=1.15.0",
     "pytest>=8.3.4",
 ]

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import PIL
+import PIL.Image
 from overrides import override
 
 from .generic import FramebufferFormat, GenericCanvas, Rotation
@@ -23,7 +23,7 @@ class GrayscaleCanvas(GenericCanvas):
         return color in [0x00, 0x55, 0xAA, 0xFF]
 
     @override
-    def _is_valid_image(self, image: PIL.Image) -> bool:
+    def _is_valid_image(self, image: PIL.Image.Image) -> bool:
         # image must have the same width, height and color depth
         if image.size != (self.fb.width, self.fb.height):
             # image has different dimensions

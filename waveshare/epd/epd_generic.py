@@ -2,9 +2,10 @@
 
 import time
 
-import busio
-import digitalio
-from adafruit_bus_device.spi_device import SPIDevice
+# CircuitPython does not provide type hints for these libraries
+import busio                                          # type: ignore
+import digitalio                                      # type: ignore
+from adafruit_bus_device.spi_device import SPIDevice  # type: ignore
 
 import waveshare.canvas
 from waveshare.epd.lookuptable import LookupTable
