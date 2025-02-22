@@ -49,11 +49,12 @@ jobs:
         env:
           SCRIPTS: ${{ steps.changed-files.outputs.scripts_all_changed_files }}
         run: |
+          uv tool install mypy
           # since this is a namespace package we must instruct mypy to scan
           # the code as a namespace package; it won't work if we scan files
-          uv run mypy -p waveshare.canvas -p waveshare.epd
+          mypy -p waveshare.canvas -p waveshare.epd
           # example scripts and tests can be scanned as files
           if [[ -n $SCRIPTS ]] ; then
-            uv run mypy $SCRIPTS
+            mypy $SCRIPTS
           fi
       # run unit tests
