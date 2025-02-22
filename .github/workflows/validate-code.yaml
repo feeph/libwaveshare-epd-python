@@ -47,14 +47,13 @@ jobs:
           pre-commit run --show-diff-on-failure --color=always --hook-stage pre-push $CHANGED_FILES
       - name: run static type checks (mypy)
         env:
-          SCRIPTS: ${{ steps.changed-files.outputs.scripts_all_changed_files }}
+          CHANGED_FILES: ${{ steps.changed-files.outputs.scripts_all_changed_files }}
+        # since this is a namespace package we must instruct mypy to scan
+        # the code as a namespace package; it won't work if we scan files
         run: |
-          uv tool install mypy
-          # since this is a namespace package we must instruct mypy to scan
-          # the code as a namespace package; it won't work if we scan files
-          mypy -p waveshare.canvas -p waveshare.epd
-          # example scripts and tests can be scanned as files
-          if [[ -n $SCRIPTS ]] ; then
-            mypy $SCRIPTS
+          uv run mypy -p waveshare.canvas -p waveshare.epd
+          # examples and tests can be scanned as files
+          if [[ -n $CHANGED_FILES ]] ; then
+            uv run mypy $CHANGED_FILES
           fi
       # run unit tests
