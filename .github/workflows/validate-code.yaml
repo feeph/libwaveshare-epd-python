@@ -1,0 +1,37 @@
+---
+#
+# If the committer has run `tox` on their local machine and fixed all
+# identified issues then this check is expected to run perfectly fine.
+#
+
+name: verify pull request
+
+on:
+  pull_request:
+
+# our tox configuration leverages pyenv to test on multiple Python versions.
+# It is unclear if we can leverage actions/setup-python@v4 to do the same.
+#
+# Even if it's possible it may be better to keep the workflows separate:
+#  - using a matrix strategy gives us a direct feedback within GHA which
+#    specific Python version failed to validate without looking at console
+#  - using a matrix strategy enables parallel execution
+#  - splitting local testing and GHA testing allows us to define different
+#    strictness levels:
+#    - local testing may leverage stricter validation tools (pylint/ruff)
+#      and/or wider range of Python versions (specific versions, future
+#      versions).
+#    - pull request tests act as a gatekeeper and define an absolute level
+#      that must be reached and maintained
+
+jobs:
+  lint:
+    name: lint the code
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: configure Python environment
+        uses: actions/setup-python@v5
+      - name: re-run pre-commit hooks
+        uses: pre-commit/action@v3.0.1
