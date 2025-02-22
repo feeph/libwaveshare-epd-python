@@ -26,6 +26,8 @@ jobs:
         uses: tj-actions/changed-files@v44
         with:
           files_yaml: |
+            branch:
+              - "**/"
             library:
               - waveshare/**.py
             scripts:
@@ -34,8 +36,15 @@ jobs:
       # -------------------------------------------------------------------
       # validate
       # -------------------------------------------------------------------
+      # The GitHub Action 'pre-commit/action' uses '--all-files' and always
+      # check against all files in the repository, even if the pull request
+      # does not touch them. We don't want that. Review modified files only.
       - name: re-run pre-commit hooks
-        uses: pre-commit/action@v3.0.1
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.branch_all_changed_files }}
+        run: |
+          uv pip install pre-commit
+          pre-commit --show-diff-on-failure --color=always --hook-stage pre-push $CHANGED_FILES
       - name: run static type checks (mypy)
         env:
           SCRIPTS: ${{ steps.changed-files.outputs.scripts_all_changed_files }}
