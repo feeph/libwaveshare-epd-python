@@ -20,6 +20,9 @@ default_stages:
   - pre-push
 
 repos:
+  # -----------------------------------------------------------------------
+  # stage: pre-commit and pre-push
+  # -----------------------------------------------------------------------
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -40,15 +43,20 @@ repos:
     rev: v2.3.2
     hooks:
       - id: autopep8
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.2.2
-    hooks:
-      - id: commitizen
   # https://github.com/PyCQA/flake8
   - repo: https://github.com/PyCQA/flake8
     rev: 7.1.2
     hooks:
       - id: flake8
+  # -----------------------------------------------------------------------
+  # stage: commit-msg
+  # -----------------------------------------------------------------------
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.2.2
+    hooks:
+      - id: commitizen
+  # -----------------------------------------------------------------------
+  # stage: post-commit
   # -----------------------------------------------------------------------
   # !! post-commit can't prevent the commit from happening !!
   #
@@ -67,6 +75,8 @@ repos:
         language: system
         entry: git
         args: [ "verify-commit", "HEAD" ]
+  # -----------------------------------------------------------------------
+  # stage: pre-push
   # -----------------------------------------------------------------------
   - repo: local
     hooks:
