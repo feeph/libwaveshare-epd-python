@@ -43,7 +43,7 @@ jobs:
         env:
           CHANGED_FILES: ${{ steps.changed-files.outputs.branch_all_changed_files }}
         run: |
-          uv pip install pre-commit
+          uv tool install pre-commit
           pre-commit --show-diff-on-failure --color=always --hook-stage pre-push $CHANGED_FILES
       - name: run static type checks (mypy)
         env:
