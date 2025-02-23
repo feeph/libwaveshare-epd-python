@@ -1,0 +1,38 @@
+[project]
+name = "waveshare.epd"
+version = "0.1.0"
+description = "Python library for Waveshare ePaper Display"
+authors = [
+  { name="Feeph Aifeimei", email="55798703+feeph@users.noreply.github.com" },
+]
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "adafruit-circuitpython-framebuf>=1.6.6",
+    "overrides>=7.7.0",
+    "pillow>=11.1.0",
+]
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/feeph/libwaveshare-epd-python"
+Issues = "https://github.com/feeph/libwaveshare-epd-python/issues"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.isort]
+ignore_whitespace = true
+
+[tool.uv]
+dev-dependencies = [
+    "adafruit-circuitpython-typing>=1.11.2",
+    "mypy>=1.15.0",
+    "pytest>=8.3.4",
+]
