@@ -27,7 +27,7 @@ jobs:
         with:
           files_yaml: |
             branch:
-              - "**/"
+              - "**"
             library:
               - waveshare/**.py
             scripts:
